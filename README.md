@@ -1,9 +1,9 @@
-#Luring of adversarial perturbations
+# Luring of adversarial perturbations
 
 This repository contains pretrained models and codes files to reproduce the results presented in the article "Luring of Adversarial Perturbations".
 
 
-##Environment and libraries
+## Environment and libraries
 
 The code files were executed in the following environment:
 
@@ -20,9 +20,9 @@ The following version of some Python packages are necessary:
 * Numpy: 1.16.12
 
 
-##Files
+## Files
 
-###Model files
+### Model files
     
 Unzip the "models.zip" file to get the "models" repository.
 The "models" repository contains the pretrained models for the datasets MNIST, SVHN and CIFAR10. As an example, on MNIST:    
@@ -42,7 +42,7 @@ an example, on MNIST:
 * models_p/MNIST_luring_p.h5 is the preprended component corresponding to the Luring architecture.
 
 
-###Training files
+### Training files
         
 Although pretrained models are provided, some python files allow to train and save your own models, 
 for the MNIST, SVHN and CIFAR10 datasets. As an example, on MNIST:
@@ -58,16 +58,16 @@ for the MNIST, SVHN and CIFAR10 datasets. As an example, on MNIST:
     # Train the Luring model
     python train_mnist.py luring
 
-###Evaluation under attack
+### Evaluation under attack
 
-####Verification of the *luring* effect
+#### Verification of the *luring* effect
 
 As an example, for a perturbation of ```epsilon=0.06``` (pixel values have been scaled between 0 and 1) on SVHN, the following command allows
 to get the values to reproduce the figures of the part "Verification of the *luring* effect":
 
     python verification_mnist.py 0.3
 
-####Adversarial results
+#### Adversarial results
 
 As an example, for a perturbation of ```epsilon=0.03``` (pixel values have been scaled between 0 and 1) on CIFAR10, the following command allows
 to get the values to reproduce the tables "Adversarial results" for the Luring architecture:
