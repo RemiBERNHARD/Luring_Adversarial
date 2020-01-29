@@ -16,7 +16,6 @@ import tensorflow as tf
 import numpy as np
 import random
 random.seed(123)
-import sys
 from datetime import datetime
 
 from utils_func import metrics, clip_adv, clip_adv_l2
