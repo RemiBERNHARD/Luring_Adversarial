@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Oct 25 09:09:56 2019
-
-@author: rb258034
-"""
-
 import sys
 
 import os
@@ -24,7 +16,6 @@ import tensorflow as tf
 import numpy as np
 import random
 random.seed(123)
-import sys
 from datetime import datetime
 
 from utils_func import metrics, clip_adv, clip_adv_l2
