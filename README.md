@@ -61,14 +61,14 @@ for the MNIST, SVHN and CIFAR10 datasets. As an example, on MNIST:
 
 ####Verification of the *luring* effect
 
-As an example, for a perturbation of epsilon=0.06 (pixel values have been scaled between 0 and 1) on SVHN, the following command allows
+As an example, for a perturbation of ```epsilon=0.06``` (pixel values have been scaled between 0 and 1) on SVHN, the following command allows
 to get the values to reproduce the figures of the part "Verification of the *luring* effect":
 
     python verification_mnist.py 0.3
 
 ####Adversarial results
 
-As an example, for a perturbation of epsilon=0.03 (pixel values have been scaled between 0 and 1) on CIFAR10, the following command allows
+As an example, for a perturbation of ```epsilon=0.03``` (pixel values have been scaled between 0 and 1) on CIFAR10, the following command allows
 to get the values to reproduce the tables "Adversarial results" for the Luring architecture:
 
     python attack_cifar10.py 0.03 luring
