@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jan 15 08:46:49 2020
-
-@author: rb258034
-"""
-
 import sys
 
 import os
