@@ -13,7 +13,6 @@ import tensorflow as tf
 import numpy as np
 import random
 random.seed(123)
-import sys
 
 from utils_func import metrics
 from cleverhans.utils_keras import KerasModelWrapper
