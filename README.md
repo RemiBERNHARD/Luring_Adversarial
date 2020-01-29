@@ -5,7 +5,7 @@ This repository contains pretrained models and codes files to reproduce the resu
 
 ## Environment and libraries
 
-The code files were executed in the following environment:
+The python scripts were executed in the following environment:
 
 * OS: CentOS Linux 7
 * GPU: NVIDIA GeForce GTX 1080 
