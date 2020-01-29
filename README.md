@@ -1,6 +1,6 @@
 # Luring of adversarial perturbations
 
-This repository contains pretrained models and codes files to reproduce the results presented in the article "Luring of Adversarial Perturbations".
+This repository contains pretrained models and python scripts to reproduce the results presented in the article "Luring of Adversarial Perturbations".
 
 
 ## Environment and libraries
