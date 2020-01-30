@@ -2,6 +2,8 @@
 
 This repository contains pretrained models and python scripts to reproduce the results presented in the article "Luring of Adversarial Perturbations".
 
+In order to get the SVHN data set, and all pretrained models, download the "models", "models_p" and "SVHN_data" repository from:
+https://drive.google.com/open?id=167Xo9DNRUCdVtv3bsJdo7kFuLPa1EQrl
 
 ## Environment and libraries
 
@@ -24,7 +26,6 @@ The following version of some Python packages are necessary:
 
 ### Model files
     
-Unzip the "models.zip" file to get the "models" repository.
 The "models" repository contains the pretrained models for the datasets MNIST, SVHN and CIFAR10. As an example, on MNIST:    
 
 * models/MNIST_float.h5 is the base classifier trained.
@@ -33,7 +34,6 @@ The "models" repository contains the pretrained models for the datasets MNIST, S
 * models/MNIST_ce.h5 is the model corresponding to the C_E architecture.
 * models/MNIST_luring.h5 is the model corresponding to the Luring architecture.
 
-Unzip the "models_p.zip" file to get the "models_p" repository.
 The "models_p" repository contains the components prepended to the base classifier for the datasets MNIST, SVHN and CIFAR10. As
 an example, on MNIST:
 
