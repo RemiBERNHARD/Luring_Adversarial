@@ -2,9 +2,6 @@
 
 This repository contains pretrained models and python scripts to reproduce the results presented in the article "Luring of Adversarial Perturbations".
 
-In order to get the SVHN data set, and all pretrained models, download the "models", "models_p" and "SVHN_data" repository from:
-https://drive.google.com/open?id=167Xo9DNRUCdVtv3bsJdo7kFuLPa1EQrl
-
 ## Environment and libraries
 
 The python scripts were executed in the following environment:
@@ -23,6 +20,9 @@ The following version of some Python packages are necessary:
 
 
 ## Files
+
+In order to get the SVHN data set (to be able to get the same training and testing tests used, as well as to run attacks), and all pretrained models, download the "models", "models_p" and "SVHN_data" repository from https://drive.google.com/open?id=167Xo9DNRUCdVtv3bsJdo7kFuLPa1EQrl and place them in the same directory as all other files.
+
 
 ### Model files
     
