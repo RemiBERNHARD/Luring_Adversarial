@@ -44,7 +44,7 @@ an example, on MNIST:
 
 ### Training files
         
-Although pretrained models are provided, some python files allow to train and save your own models (in order for models to be saved, oyu need to have a "models" folder and a "models_p" folder in the same directory as the training files), 
+Although pretrained models are provided, some python files allow to train and save your own models (in order for models to be saved, you need to have a "models" folder and a "models_p" folder in the same directory as the training files), 
 for the MNIST, SVHN and CIFAR10 datasets. As an example, on MNIST:
 
     # Train the base classifier
