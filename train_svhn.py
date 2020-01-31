@@ -623,7 +623,8 @@ if (model_type == "luring"):
 
 
 ##Save final model
-if (model_type == "luring") | (model_type == "luring_old") :
+if (model_type == "luring") | (model_type == "luring_old") | (model_type == "ce"):
+ 
     model_base = load_model("models/SVHN_float.h5")  
 
     inputs = Input(shape=(32, 32, 3))
