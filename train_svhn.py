@@ -492,7 +492,7 @@ if (model_type == "luring"):
     
     inputs = Input(shape=(32, 32, 3))
     l = Conv2D(128, (3, 3), padding='same')(inputs)
-    l = Dropout(0.3)(l)
+    l = Dropout(0.0)(l)
     l = BatchNormalization()(l)
     l = Activation('relu')(l)
     l = MaxPooling2D((2, 2), padding='same')(l)
@@ -525,7 +525,7 @@ if (model_type == "luring"):
     l = Activation('relu')(l)
     l = UpSampling2D((2, 2))(l)
     l = Conv2D(64, (3, 3), padding='same')(l)
-    l = Dropout(0.3)(l)
+    l = Dropout(0.0)(l)
     l = BatchNormalization()(l)
     l = Activation('relu')(l)
     l = Conv2D(3, (3, 3), padding='same')(l)
