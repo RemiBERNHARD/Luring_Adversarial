@@ -14,7 +14,6 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras import backend 
 import tensorflow as tf
 import numpy as np
-from datetime import datetime
 
 from utils_func import metrics
 from cleverhans.utils_keras import KerasModelWrapper
