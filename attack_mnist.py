@@ -11,8 +11,6 @@ from keras.datasets import mnist
 from keras import backend 
 import tensorflow as tf
 import numpy as np
-import random
-random.seed(123)
 
 from utils_func import metrics
 from cleverhans.utils_keras import KerasModelWrapper
