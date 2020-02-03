@@ -594,7 +594,7 @@ if (model_type == "luring"):
             uninitialized_vars.append(var)
     sess.run(tf.variables_initializer(uninitialized_vars))
 
-    tamp_val_acc = model_base.evaluate(model_auto.predict(X_test), Y_test, verbose=0)[1]
+    tamp_val_acc = model_base.evaluate(model_auto.predict(X_val), Y_val, verbose=0)[1]
     for step in np.arange(0, 50000):    
         x_batch, y_batch = next(generator)
         sess.run([opt_op, model_auto.updates], feed_dict={y: y_batch, x: x_batch, model_auto.inputs[0]: x_batch, K.learning_phase(): 1 })
