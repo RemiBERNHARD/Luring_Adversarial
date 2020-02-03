@@ -13,9 +13,7 @@ from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 import keras.backend as K
 import tensorflow as tf
 import numpy as np
-import random
 from sklearn.model_selection import train_test_split
-random.seed(123)    
 import sys
 
 
