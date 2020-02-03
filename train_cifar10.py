@@ -314,7 +314,6 @@ if (model_type == "ce"):
         if (step % 1000 == 0):
             print("step number: " + str(step)) 
             print("model_base on auto, train")
-            print(model_base.evaluate(model_auto.predict(X_train[:1000]), Y_train[:1000], verbose=0))
             print(sess.run(tot_loss, feed_dict={x: X_train[0:1000], y: Y_train[0:1000]}))
             #Save best weights 
             val_acc = model_base.evaluate(model_auto.predict(X_val), Y_val, verbose=0)[1]
@@ -454,7 +453,6 @@ if (model_type == "luring"):
         if (step % 1000 == 0):
             print("step number: " + str(step)) 
             print("model_base on auto, train")
-            print(model_base.evaluate(model_auto.predict(X_train[:1000]), Y_train[:1000], verbose=0))
             print(sess.run(tot_loss, feed_dict={x: X_train[0:1000], y: Y_train[0:1000]}))
             print(sess.run(tot_loss_2, feed_dict={x: X_train[0:1000], y: Y_train[0:1000]}))
             #Save best weights 
