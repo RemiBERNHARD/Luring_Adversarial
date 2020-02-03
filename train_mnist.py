@@ -205,7 +205,6 @@ if (model_type == "ce"):
         sess.run(opt_op, feed_dict={x: x_batch, y: y_batch})
         if (step % 1000 == 0):
             print("step number: " + str(step))          
-            print(model_base.evaluate(model_auto.predict(X_train[:1000]), Y_train[:1000], verbose=0))
             print(sess.run(tot_loss, feed_dict={x: X_train[0:1000], y: Y_train[0:1000]}))
             #Save best weights
             val_acc = model_base.evaluate(model_auto.predict(X_val), Y_val, verbose=0)[1]
@@ -301,7 +300,6 @@ if (model_type == "luring_old"):
         sess.run(opt_op, feed_dict={x: x_batch, y: y_batch})
         if (step % 1000 == 0):
             print("step number: " + str(step))          
-            print(model_base.evaluate(model_auto.predict(X_train[:1000]), Y_train[:1000], verbose=0))
             print(sess.run(tot_loss, feed_dict={x: X_train[0:1000], y: Y_train[0:1000]}))
             #Save best weights
             val_acc = model_base.evaluate(model_auto.predict(X_val), Y_val, verbose=0)[1]
@@ -407,7 +405,6 @@ if (model_type == "luring"):
         sess.run(opt_op, feed_dict={x: x_batch, y: y_batch})
         if (step % 1000 == 0):
             print("step number: " + str(step))          
-            print(model_base.evaluate(model_auto.predict(X_train[:1000]), Y_train[:1000], verbose=0))
             print(sess.run(tot_loss, feed_dict={x: X_train[0:1000], y: Y_train[0:1000]}))
             print(sess.run(tot_loss_2, feed_dict={x: X_train[0:1000], y: Y_train[0:1000]}))
             #Save best weights
