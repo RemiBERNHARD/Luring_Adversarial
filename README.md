@@ -28,7 +28,7 @@ In order to get the SVHN data set (to be able to get the same training and testi
     
 The "models" repository contains the pretrained models for the datasets MNIST, SVHN and CIFAR10. As an example, on MNIST:    
 
-* models/MNIST_float.h5 is the base classifier trained.
+* models/MNIST_float.h5 is the base classifier.
 * models/MNIST_stacked.h5 is the model corresponding to the Stacked architecture.
 * models/MNIST_auto.h5 is the model corresponding to the Auto architecture.
 * models/MNIST_ce.h5 is the model corresponding to the C_E architecture.
