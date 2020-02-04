@@ -285,7 +285,7 @@ if (model_type == "ce"):
     tot_loss = ce_loss 
     #########################
 
-    step_size_schedule = [[0, 0.00001], [50000, 0.000005], [60000, 0.0000008]]
+    step_size_schedule = [[0, 0.00001], [50000, 0.000005], [100000, 0.0000008]]
     global_step = tf.train.get_or_create_global_step()
     boundaries = [int(sss[0]) for sss in step_size_schedule]
     boundaries = boundaries[1:]
@@ -308,7 +308,7 @@ if (model_type == "ce"):
     sess.run(tf.variables_initializer(uninitialized_vars))
     
     tamp_val_acc = model_base.evaluate(model_auto.predict(X_val), Y_val, verbose=0)[1]
-    for step in np.arange(0, 70000):  
+    for step in np.arange(0, 150000):  
         x_batch, y_batch = next(generator)
         sess.run([opt_op, model_auto.updates], feed_dict={y: y_batch, x: x_batch, model_auto.inputs[0]: x_batch, K.learning_phase(): 1 })
         if (step % 1000 == 0):
