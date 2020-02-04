@@ -20,18 +20,10 @@ def optimize_linear(grad, eps, ord=np.inf):
     tf tensor containing optimal perturbation
   """
 
-  # In Python 2, the `list` call in the following line is redundant / harmless.
-  # In Python 3, the `list` call is needed to convert the iterator returned by `range` into a list.
   red_ind = list(range(1, len(grad.get_shape())))
   avoid_zero_div = 1e-12
   if ord == np.inf:
-    # Take sign of gradient
     optimal_perturbation = tf.sign(grad)
-    # The following line should not change the numerical results.
-    # It applies only because `optimal_perturbation` is the output of
-    # a `sign` op, which has zero derivative anyway.
-    # It should not be applied for the other norms, where the
-    # perturbation has a non-zero derivative.
     optimal_perturbation = tf.stop_gradient(optimal_perturbation)
   elif ord == 1:
     abs_grad = tf.abs(grad)
@@ -50,8 +42,6 @@ def optimize_linear(grad, eps, ord=np.inf):
     raise NotImplementedError("Only L-inf, L1 and L2 norms are "
                               "currently implemented.")
 
-  # Scale perturbation to be the solution for the norm=eps rather than
-  # norm=1 problem
   scaled_perturbation = utils_tf.mul(eps, optimal_perturbation)
   return scaled_perturbation
 
