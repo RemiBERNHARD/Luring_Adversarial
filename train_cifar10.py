@@ -1,6 +1,6 @@
 import os
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 from keras.models import Model, load_model
 from keras.layers import Input, Lambda, Conv2D, Conv2DTranspose, MaxPooling2D, Flatten, Dense, Activation, BatchNormalization, Dropout, Reshape, UpSampling2D
@@ -424,7 +424,7 @@ if (model_type == "luring"):
     tot_loss_2 = logits_loss_2 
     #########################
 
-    step_size_schedule = [[0, 0.00001], [50000, 0.000005], [60000, 0.0000008]]
+    step_size_schedule = [[0, 0.00001], [50000, 0.000005], [100000, 0.0000008]]
     global_step = tf.train.get_or_create_global_step()
     boundaries = [int(sss[0]) for sss in step_size_schedule]
     boundaries = boundaries[1:]
@@ -435,7 +435,7 @@ if (model_type == "luring"):
         values) 
     
     optimizer = tf.train.AdamOptimizer(learning_rate, epsilon=1e-8)  
-    opt_op = optimizer.minimize(tot_loss + 0.2*tot_loss_2, global_step=global_step, var_list=model_auto.weights)
+    opt_op = optimizer.minimize(tot_loss + 0.15*tot_loss_2, global_step=global_step, var_list=model_auto.weights)
     
     uninitialized_vars = []
     for var in tf.global_variables():
@@ -447,7 +447,7 @@ if (model_type == "luring"):
     sess.run(tf.variables_initializer(uninitialized_vars))
     
     tamp_val_acc = model_base.evaluate(model_auto.predict(X_val), Y_val, verbose=0)[1]
-    for step in np.arange(0, 70000):  
+    for step in np.arange(0, 150000):  
         x_batch, y_batch = next(generator)
         sess.run([opt_op, model_auto.updates], feed_dict={y: y_batch, x: x_batch, model_auto.inputs[0]: x_batch, K.learning_phase(): 1 })
         if (step % 1000 == 0):
