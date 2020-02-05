@@ -420,7 +420,7 @@ if (model_type == "luring"):
      
 
 ##Save final model
-if (model_type == "luring") | (model_type == "luring_old") | (model_type == "ce"):
+if (model_type == "luring") | (model_type == "luring_alt") | (model_type == "ce"):
 
     model_base = load_model("models/MNIST_float.h5")    
         
