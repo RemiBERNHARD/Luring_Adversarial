@@ -219,7 +219,7 @@ if (model_type == "ce"):
     
     
     
-if (model_type == "luring_old"):   
+if (model_type == "luring_alt"):   
            
     sess = tf.Session()
     K.set_session(sess)
@@ -306,11 +306,11 @@ if (model_type == "luring_old"):
             print("val_acc: " + str(val_acc))
             if (val_acc > tamp_val_acc):
                 print("Best accuracy on validation set so far: " + str(val_acc))
-                model_auto.save_weights("mnist_weights_best_luring_old.hdf5")
+                model_auto.save_weights("mnist_weights_best_luring_alt.hdf5")
                 tamp_val_acc = val_acc
             
-    model_auto.load_weights("mnist_weights_best_luring_old.hdf5")   
-    model_auto.save("models_p/MNIST_luring_old_p.h5")        
+    model_auto.load_weights("mnist_weights_best_luring_alt.hdf5")   
+    model_auto.save("models_p/MNIST_luring_alt_p.h5")        
      
 
 
