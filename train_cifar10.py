@@ -88,16 +88,16 @@ if (model_type == "float"):
     model = Model(inputs=inputs, outputs=predictions)
     filepath="cifar10_weights_best_float.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
-    callbacks_list = [checkpoint]
     def lr_schedule(epoch):
-        lr = 1e-1
+        lr = 1e-2
         if epoch > 120:
-            lr = 1e-3
+            lr = 1e-4
         elif epoch > 80:
-            lr = 1e-2
+            lr = 1e-3
         print('Learning rate: ', lr)
         return lr    
     lr_scheduler = LearningRateScheduler(lr_schedule)
+    callbacks_list = [checkpoint, lr_scheduler]
     model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=lr_schedule(0)), metrics=['accuracy'])
     model.fit_generator(generator.flow(X_train, Y_train, batch_size=32), 
                         epochs=200, steps_per_epoch=len(X_train)//32, 
