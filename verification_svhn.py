@@ -1,25 +1,18 @@
+import sys
 import os
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
-from keras.models import Model, load_model
-from keras.layers import Lambda, Input, Conv2D, Conv2DTranspose ,MaxPooling2D, Flatten, Dense, Activation, BatchNormalization, Dropout, Reshape, UpSampling2D, AveragePooling2D
-from keras.initializers import Constant
-from keras.optimizers import Adam
+from keras.models import load_model
 from keras.utils import np_utils
-from keras.datasets import cifar10
-from keras.preprocessing.image import ImageDataGenerator
 from keras import backend 
 import tensorflow as tf
 import numpy as np
-from datetime import datetime
-import sys
 
 from utils_func import metrics, clip_adv, clip_adv_l2
 from cleverhans.utils_keras import KerasModelWrapper
-from cleverhans.attacks import FastGradientMethod
-from cleverhans.attacks import ProjectedGradientDescent 
-from cleverhans.attacks import MomentumIterativeMethod
+from cleverhans.attacks import FastGradientMethod, ProjectedGradientDescent, MomentumIterativeMethod
+
 
 
 #Params FGSM
