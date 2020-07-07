@@ -4,21 +4,16 @@ import os
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"]= "0"
 
-from keras.models import Model, load_model
-from keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Dense, Activation, BatchNormalization, Dropout, Reshape, UpSampling2D
-from keras.initializers import Constant
-from keras.optimizers import Adam
+from keras.models import load_model
 from keras.utils import np_utils
 from keras.datasets import cifar10
-from keras.preprocessing.image import ImageDataGenerator
 from keras import backend 
 import tensorflow as tf
 import numpy as np
 
 from utils_func import metrics
 from cleverhans.utils_keras import KerasModelWrapper
-from cleverhans.attacks import FastGradientMethod
-from cleverhans.attacks import MomentumIterativeMethod
+from cleverhans.attacks import FastGradientMethod, MomentumIterativeMethod
 from MIM_InputDiverse import MomentumIterativeMethod_Diverse
 from MIM_TI import MomentumIterativeMethod_TI
 from MIM_TI_DIM import MomentumIterativeMethod_TI_DIM
@@ -134,7 +129,6 @@ fgsm_source = FastGradientMethod(wrap_source, sess=sess)
 X_adv_source = np.zeros((len(indices_test),32,32,3))
 for i in np.arange(0,len(indices_test),500):
     X_adv_source[i:(i+500)] = fgsm_source.generate_np(X_test[indices_test[i:(i+500)]], **fgsm_params)
-
 
 print("metrics source model")
 print(metrics(model_source, X_adv_source, X_test, pred_source, indices_test))
