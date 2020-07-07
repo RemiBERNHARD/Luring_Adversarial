@@ -1,11 +1,9 @@
 import sys
-
 import os
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"]= "0"
 
-from keras.models import Model, load_model
-from keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Dense, Activation, BatchNormalization, Dropout, Reshape, UpSampling2D
+from keras.models import load_model
 from keras.utils import np_utils
 from keras.datasets import mnist
 from keras import backend 
@@ -14,8 +12,7 @@ import numpy as np
 
 from utils_func import metrics
 from cleverhans.utils_keras import KerasModelWrapper
-from cleverhans.attacks import FastGradientMethod
-from cleverhans.attacks import MomentumIterativeMethod
+from cleverhans.attacks import FastGradientMethod, MomentumIterativeMethod
 from MIM_InputDiverse import MomentumIterativeMethod_Diverse
 from MIM_TI import MomentumIterativeMethod_TI
 from MIM_TI_DIM import MomentumIterativeMethod_TI_DIM
