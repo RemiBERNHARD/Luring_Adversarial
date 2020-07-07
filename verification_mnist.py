@@ -230,6 +230,3 @@ comp_func(X_adv_stacked, X_adv_auto, X_adv_ce, X_adv_rob, indices_test, pred_bas
 #comp_func_transfer(X_adv_auto, indices_test, pred_base, pred_auto, model_auto, model)
 #comp_func_transfer(X_adv_ce, indices_test, pred_base, pred_ce, model_ce, model)
 #comp_func_transfer(X_adv_rob, indices_test, pred_base, pred_rob, model_rob, model)
-
-
-
