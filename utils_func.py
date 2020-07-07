@@ -1,6 +1,5 @@
 import numpy as np
 
-
 #Project adv example on l_{\infty} adv_bound ball centered on clean example
 def clip_adv(X_adv, X_test, indices_test, adv_bound):
     X_clip_adv = np.zeros(X_test[indices_test].shape)
@@ -11,7 +10,6 @@ def clip_adv(X_adv, X_test, indices_test, adv_bound):
         j = j +1
     return(X_clip_adv)
     
-
 #Project adv example on l_2 adv_bound ball centered on clean example
 def clip_adv_l2(X_adv, X_test, indices_test, adv_bound):
     X_clip_adv = np.zeros(X_test[indices_test].shape)
@@ -26,7 +24,6 @@ def clip_adv_l2(X_adv, X_test, indices_test, adv_bound):
         j = j +1
     return(X_clip_adv)
     
-
 #Function which returns the adversarial accuracy, the number of successful adversarial examples, l2 and l_inf distances between successful adversarial examples and clean observations
 def metrics(model, X_adv, X_test, y_pred, indices_test):    
     adv_pred = np.argmax(model.predict(X_adv), axis = 1)
@@ -66,8 +63,6 @@ def metrics(model, X_adv, X_test, y_pred, indices_test):
         return(adv_acc, nb_success, "non", "non", "non", "non", l2_distort_fail/nb_fail, linf_distort_fail/nb_fail, l1_distort_fail/nb_fail,
                l0_distort_fail/nb_fail)
         
-
-
 def agree_func(indices_test, pred_adv, pred_adv_tot, pred, pred_tot):    
     
     c_1 = 0.0
@@ -143,8 +138,6 @@ def comp_func(X_adv_stacked, X_adv_auto, X_adv_ce, X_adv_rob, indices_test, pred
     agree_func(success_indices_adv, pred_adv_basefromauto, pred_auto_adv[cond], pred_base, pred_auto)
     agree_func(success_indices_adv, pred_adv_basefromce, pred_ce_adv[cond], pred_base, pred_ce)
     agree_func(success_indices_adv, pred_adv_basefromrob, pred_rob_adv[cond], pred_base, pred_rob) 
-
-
 
 def comp_func_transfer(X_adv_source, indices_test, pred_base, pred_source, model_source, model_base):
     
