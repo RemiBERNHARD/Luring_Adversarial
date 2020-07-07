@@ -1,3 +1,4 @@
+import sys
 import os
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"   # see issue #152
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
@@ -14,7 +15,6 @@ import keras.backend as K
 import tensorflow as tf
 import numpy as np
 from sklearn.model_selection import train_test_split
-import sys
 
 
 #Load data set
