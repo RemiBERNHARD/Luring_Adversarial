@@ -10,9 +10,10 @@ from keras import backend
 import tensorflow as tf
 import numpy as np
 
-from utils_func import metrics, clip_adv, clip_adv_l2
+from utils_func import metrics, clip_adv, clip_adv_l2, agree_func, comp_func, comp_func_transfer
 from cleverhans.utils_keras import KerasModelWrapper
 from cleverhans.attacks import FastGradientMethod, ProjectedGradientDescent, MomentumIterativeMethod
+
 
 
 #Params FGSM
@@ -47,108 +48,21 @@ miml2_params = {'eps': 1.0,
                }    
 
 
-def agree_func(indices_test, pred_adv, pred_adv_tot, pred, pred_tot):    
-    
-    c_1 = 0.0
-    for i in range(len(indices_test)):
-        if (pred_adv[i] != pred_adv_tot[i]):
-            if (pred_adv[i] == pred[indices_test[i]]):
-                c_1 = c_1+1 
-    print("Detected and well-classified by base: " + str(c_1))
-    
-    c_2 = 0.0
-    for i in range(len(indices_test)):
-        if (pred_adv[i] != pred_adv_tot[i]):
-            if (pred_adv[i] != pred[indices_test[i]]):
-                c_2 = c_2+1 
-    print("Detected and badly-classified by base: " + str(c_2))
-    
-    c_3 = 0.0
-    for i in range(len(indices_test)):
-        if (pred_adv[i] == pred_adv_tot[i]):
-            if (pred_adv[i] == pred[indices_test[i]]):
-                c_3 = c_3+1                     
-    print("Undetected and well-classified by base: " + str(c_3))
-    
-    c_4 = 0.0
-    for i in range(len(indices_test)):
-        if (pred_adv[i] == pred_adv_tot[i]):
-            if (pred_adv[i] != pred[indices_test[i]]):
-                c_4 = c_4+1 
-    print("Undetected and badly-classified by base: " + str(c_4))
-    
-    print((c_1 + c_3) / len(indices_test))
-    print((c_1 + c_2 + c_3) / len(indices_test))
-    
 
-def comp_func(X_adv_stacked, X_adv_rob, X_adv_ce, indices_test, pred_base, pred_stacked, pred_ce, pred_rob):
-    
-    pred_stacked_adv = np.argmax(model_stacked.predict(X_adv_stacked), axis = 1)
-    pred_ce_adv = np.argmax(model_ce.predict(X_adv_ce), axis = 1)
-    pred_rob_adv = np.argmax(model_rob.predict(X_adv_rob), axis = 1)
-    
-    success_indices_stacked_adv = np.not_equal(pred_stacked_adv, y_test[indices_test])
-    success_indices_ce_adv = np.not_equal(pred_ce_adv, y_test[indices_test])
-    success_indices_rob_adv = np.not_equal(pred_rob_adv, y_test[indices_test])
-    
-    print(np.sum(success_indices_stacked_adv))
-    print(np.sum(success_indices_ce_adv))
-    print(np.sum(success_indices_rob_adv))
-    
-    cond = (success_indices_stacked_adv == success_indices_rob_adv) & (success_indices_rob_adv == success_indices_ce_adv) & (success_indices_rob_adv == True) 
-    success_indices_adv = indices_test[cond] 
-    
-    print("metrics source models")
-    print(metrics(model_stacked, X_adv_stacked[cond], X_test, pred_stacked, success_indices_adv))
-    print(metrics(model_ce, X_adv_ce[cond], X_test, pred_ce, success_indices_adv))
-    print(metrics(model_rob, X_adv_rob[cond], X_test, pred_rob, success_indices_adv))
-    
-    print("metrics base model")
-    print(metrics(model, X_adv_stacked[cond], X_test, pred_base, success_indices_adv))
-    print(metrics(model, X_adv_ce[cond], X_test, pred_base, success_indices_adv))
-    print(metrics(model, X_adv_rob[cond], X_test, pred_base, success_indices_adv))
-
-
-    pred_adv_basefromstacked = np.argmax(model.predict(X_adv_stacked[cond]), axis=1)
-    pred_adv_basefromce = np.argmax(model.predict(X_adv_ce[cond]), axis=1)
-    pred_adv_basefromrob = np.argmax(model.predict(X_adv_rob[cond]), axis=1)
-
-
-    agree_func(success_indices_adv, pred_adv_basefromstacked, pred_stacked_adv[cond], pred_base, pred_stacked)
-    agree_func(success_indices_adv, pred_adv_basefromce, pred_ce_adv[cond], pred_base, pred_ce)  
-    agree_func(success_indices_adv, pred_adv_basefromrob, pred_rob_adv[cond], pred_base, pred_rob)  
-
-
-
-def comp_func_transfer(X_adv_source, indices_test, pred_base, pred_source, model_source, model_base):
-    
-    print("metrics source model")
-    print(metrics(model_source, X_adv_source, X_test, pred_source, indices_test))
-    print("metrics base model")
-    print(metrics(model_base, X_adv_source, X_test, pred_base, indices_test))
-
-    pred_source_adv = np.argmax(model_source.predict(X_adv_source), axis = 1)
-    pred_adv_basefromsource = np.argmax(model_base.predict(X_adv_source), axis=1)  
-    agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pred_source)
-    
-    
-#Load data set
+#################################    
+####Load data set####
+#################################
 (X_train, y_train), (X_test, y_test) = cifar10.load_data()
- 
 X_train = X_train.reshape(X_train.shape[0], 32, 32, 3)
 X_test = X_test.reshape(X_test.shape[0], 32, 32, 3)
 X_train = X_train.astype('float32')
 X_test = X_test.astype('float32')
 X_train /= 255
 X_test /= 255
- 
 Y_train = np_utils.to_categorical(y_train, 10)
 Y_test = np_utils.to_categorical(y_test, 10)
-
 y_train = y_train[:,0]
 y_test = y_test[:,0]
-
-
 
 sess = tf.Session()
 backend.set_session(sess)
@@ -157,11 +71,9 @@ backend.set_learning_phase(0)
 
 
 
-
-##############################################
-##############################################
-#######################
-#Build models
+#################################    
+####Build models####
+#################################
 model = load_model("models/CIFAR10_float.h5")
 model_stacked = load_model("models/CIFAR10_stacked.h5")
 model_ce = load_model("models/CIFAR10_ce.h5")
@@ -211,11 +123,13 @@ for i in range(len(X_test)):
 print("Agreement test set luring:" + str(c))    
 
 
-#Perform attacks
+
+#################################    
+####Perform attacks####
+#################################
 wrap_stacked = KerasModelWrapper(model_stacked)
 wrap_ce = KerasModelWrapper(model_ce)
 wrap_rob = KerasModelWrapper(model_rob)
-
 
 ####################################
     #FGSM
@@ -242,7 +156,6 @@ comp_func(X_adv_stacked, X_adv_rob, X_adv_ce, indices_test, pred_base, pred_stac
 #comp_func_transfer(X_adv_ce, indices_test, pred_base, pred_ce, model_ce, model)
 #comp_func_transfer(X_adv_rob, indices_test, pred_base, pred_rob, model_rob, model)
 
-
 ####################################
     #PGD
 print("\n\n")    
@@ -268,7 +181,6 @@ comp_func(X_adv_stacked, X_adv_rob, X_adv_ce, indices_test, pred_base, pred_stac
 #comp_func_transfer(X_adv_ce, indices_test, pred_base, pred_ce, model_ce, model)
 #comp_func_transfer(X_adv_rob, indices_test, pred_base, pred_rob, model_rob, model)
 
-
 ###################################
     #MIM
 print("\n\n")    
@@ -293,7 +205,6 @@ comp_func(X_adv_stacked, X_adv_rob, X_adv_ce, indices_test, pred_base, pred_stac
 #comp_func_transfer(X_adv_stacked, indices_test, pred_base, pred_stacked, model_stacked, model)
 #comp_func_transfer(X_adv_ce, indices_test, pred_base, pred_ce, model_ce, model)
 #comp_func_transfer(X_adv_rob, indices_test, pred_base, pred_rob, model_rob, model)
-
 
 ###################################
     #MIML2

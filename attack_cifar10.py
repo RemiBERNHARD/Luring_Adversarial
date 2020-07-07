@@ -10,7 +10,7 @@ from keras import backend
 import tensorflow as tf
 import numpy as np
 
-from utils_func import metrics
+from utils_func import metrics, agree_func
 from cleverhans.utils_keras import KerasModelWrapper
 from cleverhans.attacks import FastGradientMethod, MomentumIterativeMethod
 from MIM_InputDiverse import MomentumIterativeMethod_Diverse
@@ -18,57 +18,21 @@ from MIM_TI import MomentumIterativeMethod_TI
 from MIM_TI_DIM import MomentumIterativeMethod_TI_DIM
 
 
-def agree_func(indices_test, pred_adv, pred_adv_tot, pred, pred_tot):    
     
-    c_1 = 0.0
-    for i in range(len(indices_test)):
-        if (pred_adv[i] != pred_adv_tot[i]):
-            if (pred_adv[i] == pred[indices_test[i]]):
-                c_1 = c_1+1 
-    print("Detected and well-classified by base: " + str(c_1))
-    
-    c_2 = 0.0
-    for i in range(len(indices_test)):
-        if (pred_adv[i] != pred_adv_tot[i]):
-            if (pred_adv[i] != pred[indices_test[i]]):
-                c_2 = c_2+1 
-    print("Detected and badly-classified by base: " + str(c_2))
-    
-    c_3 = 0.0
-    for i in range(len(indices_test)):
-        if (pred_adv[i] == pred_adv_tot[i]):
-            if (pred_adv[i] == pred[indices_test[i]]):
-                c_3 = c_3+1                     
-    print("Undetected and well-classified by base: " + str(c_3))
-    
-    c_4 = 0.0
-    for i in range(len(indices_test)):
-        if (pred_adv[i] == pred_adv_tot[i]):
-            if (pred_adv[i] != pred[indices_test[i]]):
-                c_4 = c_4+1 
-    print("Undetected and badly-classified by base: " + str(c_4))
-    
-    print((c_1 + c_3) / len(indices_test))
-    print((c_1 + c_2 + c_3) / len(indices_test))
-    
-    
-#Load data set
+#################################    
+####Load data set####
+#################################
 (X_train, y_train), (X_test, y_test) = cifar10.load_data()
- 
 X_train = X_train.reshape(X_train.shape[0], 32, 32, 3)
 X_test = X_test.reshape(X_test.shape[0], 32, 32, 3)
 X_train = X_train.astype('float32')
 X_test = X_test.astype('float32')
 X_train /= 255
 X_test /= 255
- 
 Y_train = np_utils.to_categorical(y_train, 10)
 Y_test = np_utils.to_categorical(y_test, 10)
-
 y_train = y_train[:,0]
 y_test = y_test[:,0]
-
-
 
 sess = tf.Session()
 backend.set_session(sess)
@@ -77,10 +41,9 @@ backend.set_learning_phase(0)
     
 
 
-##############################################
-##############################################
-#######################
-#Build models
+#################################    
+####Build models####
+#################################
 model = load_model("models/CIFAR10_float.h5")
 
 model_type = sys.argv[2]
@@ -104,14 +67,10 @@ indices_test = np.random.choice(success_indices, 1000, replace=False)
 
 
 
-
-
-########################################################
-########################################################
-########################################################
-#Attacks
+#################################    
+####Perform attacks####
+#################################
 wrap_source = KerasModelWrapper(model_source)
-
 
 ####################################
 #FGSM
@@ -138,7 +97,6 @@ pred_source_adv = np.argmax(model_source.predict(X_adv_source), axis = 1)
 pred_adv_basefromsource = np.argmax(model.predict(X_adv_source), axis=1)  
 agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pred_source)
 print(" ")
-
 
 ####################################
 #MIM
@@ -168,7 +126,6 @@ pred_source_adv = np.argmax(model_source.predict(X_adv_source), axis = 1)
 pred_adv_basefromsource = np.argmax(model.predict(X_adv_source), axis=1)  
 agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pred_source)
 print(" ")
-
 
 ####################################
 #MIM Diverse
@@ -202,7 +159,6 @@ for i in  np.arange(0.1,1.1,0.1):
     pred_adv_basefromsource = np.argmax(model.predict(X_adv_source), axis=1)  
     agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pred_source)
     print(" ")
-
 
 ####################################
 #MIM TI
@@ -249,7 +205,6 @@ for (i,j) in [(1,1), (3,3), (5,3), (10,3), (15,3)]:
     pred_source_adv = np.argmax(model_source.predict(X_adv_source), axis = 1)
     pred_adv_basefromsource = np.argmax(model.predict(X_adv_source), axis=1)  
     agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pred_source)  
-
 
 ####################################
     #MIM-TI-DIM
