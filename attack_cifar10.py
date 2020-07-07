@@ -253,6 +253,3 @@ for (i,j) in [(1,1), (3,3), (5,3), (10,3), (15,3)]:
     pred_source_adv = np.argmax(model_source.predict(X_adv_source), axis = 1)
     pred_adv_basefromsource = np.argmax(model.predict(X_adv_source), axis=1)  
     agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pred_source)    
-    
-    
-    
