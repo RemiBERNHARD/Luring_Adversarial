@@ -16,6 +16,9 @@ from cleverhans.attacks import FastGradientMethod, MomentumIterativeMethod
 from MIM_InputDiverse import MomentumIterativeMethod_Diverse
 from MIM_TI import MomentumIterativeMethod_TI
 from MIM_TI_DIM import MomentumIterativeMethod_TI_DIM
+from cleverhans.attacks import SPSA
+from parsimonious_attack import ParsimoniousAttack
+
 
     
 
@@ -261,8 +264,6 @@ for (i,j) in [(1,1), (3,3), (5,3), (10,3), (15,3)]:
 print("\n\n")        
 print("PARSI")  
 
-from parsimonious_attack import ParsimoniousAttack
-
 parsi_attack = ParsimoniousAttack(model_source, max_queries=20000, epsilon=float(sys.argv[1]), block_size = 8, batch_size=256)
 
 X_adv_source = np.zeros((len(indices_test),32,32,3))
@@ -282,8 +283,6 @@ agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pr
 #SPSA
 print("\n\n")        
 print("SPSA")  
-
-from cleverhans.attacks import SPSA
 
 spsa_params = {'eps': float(sys.argv[1]),
                'learning_rate': 0.01,
