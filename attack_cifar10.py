@@ -253,3 +253,60 @@ for (i,j) in [(1,1), (3,3), (5,3), (10,3), (15,3)]:
     pred_source_adv = np.argmax(model_source.predict(X_adv_source), axis = 1)
     pred_adv_basefromsource = np.argmax(model.predict(X_adv_source), axis=1)  
     agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pred_source)    
+    
+####################################
+#PARSI
+print("\n\n")        
+print("PARSI")  
+
+from parsimonious_attack import ParsimoniousAttack
+
+parsi_attack = ParsimoniousAttack(model_source, max_queries=20000, epsilon=float(sys.argv[1]), block_size = 4, batch_size=512)
+
+X_adv_source = np.zeros((len(indices_test),32,32,3))
+for i in range(0, len(indices_test)): 
+    X_adv_source[i] = parsi_attack.perturb(X_test[indices_test[i:(i+1)]], y_test[indices_test[i]], i, sess)[0]
+
+print("metrics source model")
+print(metrics(model_source, X_adv_source, X_test, pred_source, indices_test))
+print("metrics base model")
+print(metrics(model, X_adv_source, X_test, pred_base, indices_test))
+
+pred_source_adv = np.argmax(model_source.predict(X_adv_source), axis = 1)
+pred_adv_basefromsource = np.argmax(model.predict(X_adv_source), axis=1)  
+agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pred_source)
+
+####################################
+#SPSA
+print("\n\n")        
+print("SPSA")  
+
+from cleverhans.attacks import SPSA
+
+spsa_params = {'eps': float(sys.argv[1]),
+               'learning_rate': 0.01,
+               'delta': 0.01,
+               'spsa_samples': 128,
+               'spsa_iters': 1,
+               'nb_iter': 100,
+               'clip_min': 0.,
+               'clip_max': 1.
+               }
+
+spsa_attack = SPSA(wrap_source, sess=sess)
+x = tf.placeholder(dtype=tf.float32, shape=(None,32,32,3))
+y = tf.placeholder(dtype=tf.float32, shape=(None,10))
+x_adv = spsa_attack.generate(x, y, **spsa_params)
+X_adv_source = np.zeros((len(indices_test),32,32,3))
+for i in range(0, len(indices_test)):
+    X_adv_source[i] = sess.run(x_adv, feed_dict={x: X_test[indices_test[i:(i+1)]], y: Y_test[indices_test[i:(i+1)]]})
+
+print("metrics source model")
+print(metrics(model_source, X_adv_source, X_test, pred_source, indices_test))
+print("metrics base model")
+print(metrics(model, X_adv_source, X_test, pred_base, indices_test))
+
+pred_source_adv = np.argmax(model_source.predict(X_adv_source), axis = 1)
+pred_adv_basefromsource = np.argmax(model.predict(X_adv_source), axis=1)  
+agree_func(indices_test, pred_adv_basefromsource, pred_source_adv, pred_base, pred_source)
+    
