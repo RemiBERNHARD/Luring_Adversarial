@@ -33,7 +33,7 @@ pgd_params = {'eps': float(sys.argv[1]),
 #PARAMS MIM
 mim_params = {'eps': float(sys.argv[1]),  
               'eps_iter': 0.01,
-              'nb_iter': 100,
+              'nb_iter': 1000,
               'ord': np.inf,
                'clip_min': 0.,
                'clip_max': 1.         
