@@ -1,4 +1,4 @@
-# Luring of adversarial perturbations
+# Luring of transferable adversarial perturbations in the black-box paradigm
 
 This repository contains pretrained models and python scripts to reproduce the results presented in the article "Luring of transferable adversarial perturbations in the black-box paradigm".
 
