@@ -50,7 +50,7 @@ backend.set_learning_phase(0)
 model = load_model("models/CIFAR10_float.h5")
 
 model_type = sys.argv[2]
-model_source = load_model("models/CIFAR10_" + sys.argv[2] + ".h5")
+model_source = load_model("models/CIFAR10_" + model_type + ".h5")
 print("Crafting adversarial examples on model: " + model_type)
 print("Size of the perturbation: " + sys.argv[1])
 print("\n")
