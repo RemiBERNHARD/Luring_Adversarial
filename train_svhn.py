@@ -310,7 +310,6 @@ if (model_type == "ce"):
     x = tf.placeholder(tf.float32, shape=(None, 32, 32, 3))
     y = tf.placeholder(tf.float32, shape=(None, 10))
        
-    preds = model_base(x)
     logits = model_base(model_auto(x))._op.inputs[0]
     ce_loss = tf.losses.softmax_cross_entropy(y, logits)
     tot_loss = ce_loss  
@@ -340,7 +339,8 @@ if (model_type == "ce"):
     tamp_val_acc = model_base.evaluate(model_auto.predict(X_val), Y_val, verbose=0)[1]
     for step in np.arange(0, 50000):    
         x_batch, y_batch = next(generator)
-        sess.run([opt_op, model_auto.updates], feed_dict={y: y_batch, x: x_batch, model_auto.inputs[0]: x_batch, K.learning_phase(): 1 })
+        pred_base_batch = model_base.predict(x_batch)
+        sess.run([opt_op, model_auto.updates], feed_dict={y: pred_base_batch, x: x_batch, model_auto.inputs[0]: x_batch, K.learning_phase(): 1 })
         if (step % 100 == 0):
             print("step number: " + str(step)) 
             print(sess.run(tot_loss, feed_dict={x: X_train[0:1000], y: Y_train[0:1000]}))
