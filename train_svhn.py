@@ -8,7 +8,6 @@ from keras.layers import Input, Lambda, Conv2D, Conv2DTranspose, MaxPooling2D, F
 from keras.initializers import Constant
 from keras.optimizers import Adam, SGD
 from keras.utils import np_utils
-from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 import keras.backend as K
