@@ -2,6 +2,14 @@
 
 This repository contains pretrained models and python scripts to reproduce the results presented in the article "Luring of transferable adversarial perturbations in the black-box paradigm".
 
+This repository contains pretrained models and python scripts to reproduce results presented in the article:
+
+**Luring Transferable Adversarial Perturbations for Deep Neural Networks** <br/>
+Rémi Bernhard , Pierre-Alain Moellic and Jean-Max Dutertre </br>
+IJCNN 2021  </br>
+https://arxiv.org/abs/2004.04919 <br/>
+
+
 ## Environment and libraries
 
 The python scripts were executed in the following environment:
